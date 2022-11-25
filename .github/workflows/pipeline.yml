@@ -21,6 +21,8 @@ jobs:
         run: npm install
       - name: lint
         run: npm run lint
+      - name: install react-scripts
+        run: npm install react-scripts
       - name: npm build:ui
         run: npm run build:ui
       - name: setup Fly.io
