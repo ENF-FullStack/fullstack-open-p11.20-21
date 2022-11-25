@@ -21,8 +21,10 @@ jobs:
         run: npm install
       - name: lint
         run: npm run lint
+      - name: npm build:ui
+        run: npm run build:ui
       - name: setup Fly.io
-        if: github.event.name == 'push' && contains(join(github.event.commits.*.message, ', '), '#skip') == false
+        if: github.event_name == 'push' && contains(join(github.event.commits.*.message, ', '), '#skip') == false
         uses: superfly/flyctl-actions/setup-flyctl@master
       - name: npm install
         run: npm install && cd client && npm install
