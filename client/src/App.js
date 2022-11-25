@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+/* eslint-disable eqeqeq */
+import React, { useState, useEffect } from 'react'
 import Person from './components/Person'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
@@ -17,7 +18,7 @@ const App = () => {
   const handleSearch = (event) => setSearchName(event.target.value)
 
   useEffect(() => {
-    
+
     personService
       .getAll()
       .then(response => {
@@ -29,7 +30,7 @@ const App = () => {
     if (message === null && error === null) {
       return null
     }
-    
+
     if (message != null) {
       return (
         <div className="task">
@@ -64,33 +65,33 @@ const App = () => {
       setNewNumber('')
       return
     }
-    
+
     if (checkPerson && !checkNumber) {
       const res = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
-        if(res) {
-          const updateId = persons.find(person => person.name === newName)
-          Object.assign(personObject, {id: updateId.id})
-          personService
-            .update(updateId.id, personObject)
-              .then(response => {
-                setPersons(persons.map(p => p.id !== updateId.id ? p : response))
-                setNewName('')
-                setNewNumber('')
+      if(res) {
+        const updateId = persons.find(person => person.name === newName)
+        Object.assign(personObject, { id: updateId.id })
+        personService
+          .update(updateId.id, personObject)
+          .then(response => {
+            setPersons(persons.map(p => p.id !== updateId.id ? p : response))
+            setNewName('')
+            setNewNumber('')
 
-                setTaskMessage ( `Updated ${personObject.name} information` )
-                setTimeout(() => {
-                  setTaskMessage(null)
-                }, 5000)
-              })
-              .catch(error => {
-                console.log('fail', error)
-              })
-        } else return
+            setTaskMessage ( `Updated ${personObject.name} information` )
+            setTimeout(() => {
+              setTaskMessage(null)
+            }, 5000)
+          })
+          .catch(error => {
+            console.log('fail', error)
+          })
+      } else return
     }
 
     if (!checkPerson && !checkNumber) {
       personService
-      .create(personObject)
+        .create(personObject)
         .then(response => {
           setPersons(persons.concat(response))
           setNewName('')
@@ -100,14 +101,14 @@ const App = () => {
           setTimeout(() => {
             setTaskMessage(null)
           }, 5000)
-      })
-      .catch(error => {
-        setErrorMessage(JSON.stringify(error.response.data.error))
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
+        })
+        .catch(error => {
+          setErrorMessage(JSON.stringify(error.response.data.error))
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
         // console.log(error.response.data)
-      })
+        })
     }
   }
 
@@ -121,18 +122,19 @@ const App = () => {
     //console.log(newList)
 
     const res = window.confirm(`Delete ${deletedName.name} ?`)
-      if(res) {
-        personService
-          .deletePerson(id.target.value)
-          .then(response => {
-            setPersons(newList)
+    if(res) {
+      personService
+        .deletePerson(id.target.value)
+        // eslint-disable-next-line no-unused-vars
+        .then(response => {
+          setPersons(newList)
 
-            setTaskMessage ( `Removed ${deletedName.name}` )
-            setTimeout(() => {
+          setTaskMessage ( `Removed ${deletedName.name}` )
+          setTimeout(() => {
             setTaskMessage(null)
           }, 5000)
-          })
-      }  
+        })
+    }
   }
 
   return (
