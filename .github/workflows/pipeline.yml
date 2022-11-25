@@ -24,6 +24,8 @@ jobs:
       - name: setup Fly.io
         if: github.event.name == 'push' && contains(join(github.event.commits.*.message, ', '), '#skip') == false
         uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: npm install
+        run: npm install && cd client && npm install
       - name: deploy Fly.io
         if: github.event_name == 'push' && contains(join(github.event.commits.*.message, ', '), '#skip') == false
         run: flyctl deploy --remote-only
