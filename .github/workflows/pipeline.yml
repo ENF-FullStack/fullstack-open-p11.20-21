@@ -40,9 +40,9 @@ jobs:
           node-version: '16'
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: npm install
-      - run: npm install && cd client && npm install && cd ..
+        run: npm install && cd client && npm install && cd ..
       - name: deploy Fly.io
-      - run: npm run deploy:full
+        run: npm run deploy:full
   tag_release:
     if: github.event_name == 'push' && contains(join(github.event.commits.*.message, ', '), '#skip') == false
     needs: [deploy_fly]
