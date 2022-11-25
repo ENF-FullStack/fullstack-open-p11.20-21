@@ -21,14 +21,14 @@ jobs:
         run: npm install
       - name: lint
         run: npm run lint
-      - name: install react-scripts
-        run: npm install react-scripts
+#      - name: install react-scripts
+#        run: npm install react-scripts
       - name: npm install
         run: npm install && cd client && npm install && cd ..
       - name: npm build:ui
         run: npm run build:ui
   deploy_fly:
-    if: github.event_name == 'push' && contains(join(github.event.commits.*.message, ', '), '#skip') == false
+    if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message, ', '), '#skip') == false }}
     needs: [lint_build]
     runs-on: ubuntu-20.04
     steps:
@@ -44,7 +44,7 @@ jobs:
       - name: deploy Fly.io
         run: npm run deploy:full
   tag_release:
-    if: github.event_name == 'push' && contains(join(github.event.commits.*.message, ', '), '#skip') == false
+    if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message, ', '), '#skip') == false }}
     needs: [deploy_fly]
     runs-on: ubuntu-20.04
     steps:
