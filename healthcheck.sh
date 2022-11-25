@@ -9,6 +9,7 @@ if [ "$res" == "ok" ]; then
   exit 0
 fi
 
+echo "Testing testing"
 echo "Failed curl to /health"
 # 0: OK, 1: Bad.
 exit 1
