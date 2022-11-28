@@ -4,3 +4,4 @@ build/
 client/build/
 client/public/
 cypress/
+cypress.config.js
