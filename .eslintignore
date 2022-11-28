@@ -3,3 +3,5 @@ client/node_modules/
 build/
 client/build/
 client/public/
+cypress/
+cypress.config.js
