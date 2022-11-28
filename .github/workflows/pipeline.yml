@@ -29,7 +29,8 @@ jobs:
         run: npm run build:ui
   deploy_fly:
 #    if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message, ', '), '#skip') == false }}
-    if: ${{ (github.event_name == 'push') && ( ! contains(join(toJSON(github.event.commits.*.message)), '#skip')) }}
+#    if: ${{ (github.event_name == 'push') && ( ! contains(join(toJSON(github.event.commits.*.message)), '#skip')) }}
+    if: ${{ github.event_name == 'push' }}
     needs: [lint_build]
     runs-on: ubuntu-20.04
     steps:
@@ -46,7 +47,8 @@ jobs:
         run: npm run deploy:full
   tag_release:
 #    if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message, ', '), '#skip') == false }}
-    if: ${{ (github.event_name == 'push') && ( ! contains(join(toJSON(github.event.commits.*.message)), '#skip')) }}
+#    if: ${{ (github.event_name == 'push') && ( ! contains(join(toJSON(github.event.commits.*.message)), '#skip')) }}
+    if: ${{ github.event_name == 'push' }}
     needs: [deploy_fly]
     runs-on: ubuntu-20.04
     steps:
