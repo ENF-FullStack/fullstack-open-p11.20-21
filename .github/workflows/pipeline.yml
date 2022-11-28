@@ -27,10 +27,14 @@ jobs:
         run: npm install && cd client && npm install && cd ..
       - name: npm build:ui
         run: npm run build:ui
+      - name: Cypress e2e test
+        uses: cypress-io/github-action@v4
+        with:
+          build: npm run build:ui
+          start: npm start
+          wait-on: http://localhost:3001
   deploy_fly:
-#    if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message, ', '), '#skip') == false }}
     if: ${{ (github.event_name == 'push' || github.event_name == 'pull_request') && ( ! contains(join(toJSON(github.event.commits.*.message)), '#skip')) }}
-#    if: github.event_name == 'push' || github.event_name == 'pull_request'
     needs: [lint_build]
     runs-on: ubuntu-20.04
     steps:
@@ -46,9 +50,7 @@ jobs:
       - name: deploy Fly.io
         run: flyctl deploy --remote-only
   tag_release:
-#    if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message, ', '), '#skip') == false }}
     if: ${{ (github.event_name == 'push' || github.event_name == 'pull_request') && ( ! contains(join(toJSON(github.event.commits.*.message)), '#skip')) }}
-#    if: github.event_name == 'push' || github.event_name == 'pull_request'
     needs: [deploy_fly]
     runs-on: ubuntu-20.04
     steps:
